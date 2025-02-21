@@ -21,19 +21,24 @@ void Board::new_piece() {
 
 // Clear a row and shifts down all other rows above it
 void Board::clear_row(int rowNum) {
-	for (int j = rowNum; j > 1; j--) rows[j] = rows[j - 1];
+	for (int j = rowNum; j > 1; --j) {
+		rows[j] = rows[j - 1];
+	}
+
 	rows[0].reset();
 }
 
 void Board::shuffle_pieces() {
 	next_piece_ind = 0;
 	unsigned short pieceNumbers[] = {0, 1, 2, 3, 4, 5, 6};
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 7; ++i) {
 		int randInd = (int)(rand() % 7);
 		std::swap(pieceNumbers[i], pieceNumbers[randInd]);
 	}
 
-	for (int i = 0; i < 7; i++) next_pieces[i] = pieceNumbers[i];
+	for (int i = 0; i < 7; ++i) {
+		next_pieces[i] = pieceNumbers[i];
+	}
 }
 
 Cell& Board::cell_at(const Vec2i& pos) {
@@ -59,8 +64,9 @@ bool Board::can_drop(MovingPiece& piece) const {
 
 	for (Vec2i part : active_piece) {
 		Vec2i check = pos + part;
-		if (check.y >= NUM_CELLS_Y || cell_at(check).on)
+		if (check.y >= NUM_CELLS_Y || cell_at(check).on) {
 			return true;
+		}
 	}
 
 	return false;

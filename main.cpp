@@ -36,6 +36,7 @@ static bool check_key(const Key& key, const bool once_key) {
 		if (key.held_time == 0) {
 			return true;
 		}
+
 		if (!once_key) {
 			if (key.held_time - DAR > 0) {
 				if ((key.held_time - DAR) % ARR == 0) {
@@ -62,40 +63,36 @@ static void check_events(sf::RenderWindow& wind, std::map<sf_key, Key>& keys) {
 	// Loop Through all the events that happened this frame
 	sf::Event event;
 	while (wind.pollEvent(event)) {
-		if (event.type == sf::Event::Closed)
+		if (event.type == sf::Event::Closed) {
 			wind.close();
-		else if (event.type == sf::Event::KeyPressed)
+		} else if (event.type == sf::Event::KeyPressed) {
 			key_pressed(keys, event.key.code);
-		else if (event.type == sf::Event::KeyReleased)
+		} else if (event.type == sf::Event::KeyReleased) {
 			key_released(keys, event.key.code);
+		}
 	}
 }
 
 static void check_inputs(Board& board, std::map<sf_key, Key>& keys) {
-	if (check_key(keys[LEFT], false))
-		board.move_piece(Vec2i{-1, 0});
-	if (check_key(keys[RIGHT], false))
-		board.move_piece(Vec2i{1, 0});
-	if (check_key(keys[DOWN], false))
+	if (check_key(keys[LEFT], false)) board.move_piece(Vec2i{-1, 0});
+	if (check_key(keys[RIGHT], false)) board.move_piece(Vec2i{1, 0});
+
+	if (check_key(keys[DOWN], false)) {
 		if (!board.move_piece(Vec2i{0, 1})) {
 			board.drop_piece();
 		}
+	}
 
-	if (check_key(keys[TURN_RIGHT], true)) // Rotate
-		board.rotate_piece(1);
-	if (check_key(keys[TURN_180], true)) // Rotate
-		board.rotate_piece(2);
-	if (check_key(keys[TURN_LEFT], true)) // Rotate
-		board.rotate_piece(3);
-	if (check_key(keys[SWAP_HELD], true)) // Swap for held piece
-		board.swap_held();
-	if (check_key(keys[KEY_DROP], true)) // Quick Drop
-		board.drop_piece();
+	if (check_key(keys[TURN_RIGHT], true)) board.rotate_piece(1);
+	if (check_key(keys[TURN_180], true)) board.rotate_piece(2);
+	if (check_key(keys[TURN_LEFT], true)) board.rotate_piece(3);
+	if (check_key(keys[SWAP_HELD], true)) board.swap_held();
+	if (check_key(keys[KEY_DROP], true)) board.drop_piece();
 }
 
 static void clear_lines(Board& board) {
 	int lines = 0;
-	for (int i = 0; i < board.rows.size(); i++) {
+	for (int i = 0; i < board.rows.size(); ++i) {
 		Row& row = board.rows[i];
 		row.update();
 		if (row.filled) {
@@ -116,7 +113,9 @@ static void clear_lines(Board& board) {
 
 	board.score += lines * lines;
 
-	if (lines != 0) std::cout << board.score << "\n";
+	if (lines != 0) {
+		std::cout << board.score << "\n";
+	}
 }
 
 static void update(Board& board, sf::RenderWindow& wind, std::map<sf_key, Key>& keys) {
@@ -130,7 +129,9 @@ static void update(Board& board, sf::RenderWindow& wind, std::map<sf_key, Key>& 
 			if (use_default_key_events) {
 				val.down = false;
 				val.held_time = 0;
-			} else val.held_time++;
+			} else {
+				val.held_time++;
+			}
 		}
 	}
 }

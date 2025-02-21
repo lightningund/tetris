@@ -24,7 +24,9 @@ void Row::reset() {
 
 void Row::update() {
 	if (filled || flash_timer != -1) return;
-	for (Cell& cell : cells) if (!cell.on) return;
+	for (Cell& cell : cells) {
+		if (!cell.on) return;
+	}
 
 	filled = true;
 	flash_timer = FLASH_FRAMES;
@@ -34,10 +36,10 @@ Piece get_piece(const FullPiece& full_piece, const int rot) {
 	Piece base = full_piece.base;
 	Vec2f center = full_piece.center;
 
-	int s = rot == 3 ? -1 : rot % 2;
-	int c = rot == 2 ? -1 : (rot + 1) % 2;
+	int s = (rot == 3) ? -1 : rot % 2;
+	int c = (rot == 2) ? -1 : (rot + 1) % 2;
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; ++i) {
 		Vec2f part{base[i]};
 		part -= center;
 		float xnew = part.x * c - part.y * s;

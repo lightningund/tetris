@@ -45,7 +45,7 @@ static void draw_piece(const MovingPiece& piece, const sf::Color& col, sf::Rende
 
 	for (Vec2i& part : active_piece) {
 		sf::RectangleShape pp{Vec2f{CELL_SIZE, CELL_SIZE}};
-		pp.setPosition(XOFF + ((pos.x + part.x) * CELL_SIZE), float(pos.y + part.y) * CELL_SIZE);
+		pp.setPosition(XOFF + ((pos.x + part.x) * CELL_SIZE), float(pos.y + part.y * CELL_SIZE));
 		pp.setFillColor(col);
 		wind.draw(pp);
 	}
@@ -79,9 +79,9 @@ static void render_board(const Board& board, sf::RenderWindow& wind) {
 	rect.setFillColor(BLACK);
 	wind.draw(rect);
 
-	for (int i = 0; i < board.rows.size(); i++) {
+	for (int i = 0; i < board.rows.size(); ++i) {
 		const Row& row = board.rows[i];
-		for (int j = 0; j < row.cells.size(); j++) {
+		for (int j = 0; j < row.cells.size(); ++j) {
 			const Cell& cell = row.cells[j];
 			if (!cell.on) continue;
 
