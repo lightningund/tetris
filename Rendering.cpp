@@ -1,6 +1,6 @@
 #include "Rendering.hpp"
 
-void draw_ui_piece(bool isHeld, const Board& board, sf::RenderWindow& wind) {
+static void draw_ui_piece(bool isHeld, const Board& board, sf::RenderWindow& wind) {
 	unsigned int xoff = isHeld ? PIECE_SIZE : (WIDTH - 5 * PIECE_SIZE);
 
 	sf::RectangleShape bg{Vec2f{PIECE_SIZE * 4, PIECE_SIZE * 4}};
@@ -26,20 +26,20 @@ void draw_ui_piece(bool isHeld, const Board& board, sf::RenderWindow& wind) {
 	}
 }
 
-void draw_next(const Board& board, sf::RenderWindow& wind) {
+static void draw_next(const Board& board, sf::RenderWindow& wind) {
 	draw_ui_piece(false, board, wind);
 }
 
-void draw_held(const Board& board, sf::RenderWindow& wind) {
+static void draw_held(const Board& board, sf::RenderWindow& wind) {
 	draw_ui_piece(true, board, wind);
 }
 
-void render_ui(const Board& board, sf::RenderWindow& wind) {
+static void render_ui(const Board& board, sf::RenderWindow& wind) {
 	draw_held(board, wind);
 	draw_next(board, wind);
 }
 
-void draw_piece(const MovingPiece& piece, const sf::Color& col, sf::RenderWindow& wind) {
+static void draw_piece(const MovingPiece& piece, const sf::Color& col, sf::RenderWindow& wind) {
 	Vec2i pos = piece.pos;
 	Piece active_piece = get_piece(piece);
 
@@ -51,15 +51,15 @@ void draw_piece(const MovingPiece& piece, const sf::Color& col, sf::RenderWindow
 	}
 }
 
-void draw_piece(const MovingPiece& piece, sf::RenderWindow& wind) {
+static void draw_piece(const MovingPiece& piece, sf::RenderWindow& wind) {
 	draw_piece(piece, piece.get_full().color, wind);
 }
 
-void draw_piece(const Board& board, sf::RenderWindow& wind) {
+static void draw_piece(const Board& board, sf::RenderWindow& wind) {
 	draw_piece(board.curr_piece, wind);
 }
 
-void pseudo_drop(const MovingPiece& piece, const Board& board, sf::RenderWindow& wind) {
+static void pseudo_drop(const MovingPiece& piece, const Board& board, sf::RenderWindow& wind) {
 	sf::Color col = piece.get_full().color;
 	col.a = 100;
 
@@ -68,11 +68,11 @@ void pseudo_drop(const MovingPiece& piece, const Board& board, sf::RenderWindow&
 	draw_piece(dropped, col, wind);
 }
 
-void pseudo_drop(const Board& board, sf::RenderWindow& wind) {
+static void pseudo_drop(const Board& board, sf::RenderWindow& wind) {
 	pseudo_drop(board.curr_piece, board, wind);
 }
 
-void render_board(const Board& board, sf::RenderWindow& wind) {
+static void render_board(const Board& board, sf::RenderWindow& wind) {
 	// Draw the black background
 	sf::RectangleShape rect{Vec2f{NUM_CELLS_X * CELL_SIZE, HEIGHT}};
 	rect.setPosition(XOFF, 0);
