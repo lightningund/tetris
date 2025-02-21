@@ -145,14 +145,14 @@ void drop_piece(Board& board) {
 		cell.col = dropped_piece.get_full().color;
 	}
 
-	board.newPiece();
+	board.new_piece();
 }
 
 void swap_held(Board& board) {
-	if (!board.hasHeld) {
-		board.hasHeld = true;
+	if (!board.has_held) {
+		board.has_held = true;
 		board.held_piece = board.curr_piece.type;
-		board.newPiece();
+		board.new_piece();
 	} else {
 		int tempPiece = board.held_piece;
 		board.held_piece = board.curr_piece.type;
@@ -190,7 +190,7 @@ void clear_lines(Board& board) {
 			if (row.flash_timer == 0) {
 				lines++;
 				row.flash_timer = -1;
-				board.clearRow(i);
+				board.clear_row(i);
 			} else {
 				uint8_t flash_col = ((row.flash_timer >> 2) % 2) * 255;
 				row.flash_timer--;
@@ -233,8 +233,8 @@ void draw_ui_piece(bool isHeld, const Board& board, sf::RenderWindow& wind) {
 	bg.setOutlineThickness(1);
 	wind.draw(bg);
 
-	if ((isHeld && board.hasHeld) || !isHeld) {
-		int sel_ind = isHeld ? board.held_piece : board.nextPieces[board.next_piece_ind];
+	if ((isHeld && board.has_held) || !isHeld) {
+		int sel_ind = isHeld ? board.held_piece : board.next_pieces[board.next_piece_ind];
 		FullPiece sel_piece{pieces[sel_ind]};
 		const sf::Color draw_col{sel_piece.color};
 		sf::RectangleShape piece_part{Vec2f{PIECE_SIZE, PIECE_SIZE}};

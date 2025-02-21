@@ -5,7 +5,7 @@
 
 struct Board {
 	bool hit_floor{};
-	bool hasHeld{};
+	bool has_held{};
 	unsigned int held_piece{};
 	unsigned int next_piece_ind{};
 	unsigned int score{};
@@ -15,14 +15,14 @@ struct Board {
 
 	MovingPiece curr_piece{};
 
-	std::array<int, 7> nextPieces{};
+	std::array<int, 7> next_pieces{};
 	std::array<Row, NUM_CELLS_Y> rows{};
 
 	void init();
 
-	void newPiece();
-	void clearRow(int rowNum);
-	void shufflePieces();
+	void new_piece();
+	void clear_row(int rowNum);
+	void shuffle_pieces();
 	Cell& operator[](const Vec2i& pos);
 	Cell& get_cell(Vec2i pos);
 };
