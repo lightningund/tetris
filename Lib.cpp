@@ -1,6 +1,5 @@
 #include "Lib.hpp"
 #include "Pieces.hpp"
-#include <utility>
 
 MovingPiece::MovingPiece() : MovingPiece{0} {}
 
