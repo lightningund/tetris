@@ -2,13 +2,9 @@
 #include "Pieces.hpp"
 #include <utility>
 
-MovingPiece::MovingPiece() : MovingPiece{0} {
-	
-}
+MovingPiece::MovingPiece() : MovingPiece{0} {}
 
-MovingPiece::MovingPiece(const int type) : type{type} {
-
-}
+MovingPiece::MovingPiece(const int type) : type{type} {}
 
 const FullPiece& MovingPiece::get_full() const {
 	return pieces[type];
@@ -34,7 +30,7 @@ void Row::update() {
 	flash_timer = FLASH_FRAMES;
 }
 
-Piece get_piece_from_full_piece_and_rot(const FullPiece& full_piece, const int rot) {
+Piece get_piece(const FullPiece& full_piece, const int rot) {
 	Piece base = full_piece.base;
 	Vec2f center = full_piece.center;
 
@@ -52,12 +48,12 @@ Piece get_piece_from_full_piece_and_rot(const FullPiece& full_piece, const int r
 	return base;
 }
 
-Piece get_piece_from_type_and_rot(const int type, const int rot) {
-	return get_piece_from_full_piece_and_rot(pieces[type], rot);
+Piece get_piece(const int type, const int rot) {
+	return get_piece(pieces[type], rot);
 }
 
-Piece get_piece_from_moving_piece(const MovingPiece& moving_piece) {
-	return get_piece_from_full_piece_and_rot(moving_piece.get_full(), moving_piece.rot);
+Piece get_piece(const MovingPiece& moving_piece) {
+	return get_piece(moving_piece.get_full(), moving_piece.rot);
 }
 
 // Creates a MovingPiece from a type, rotation, x, and y

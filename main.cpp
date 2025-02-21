@@ -14,28 +14,24 @@ int main() {
 	std::map<sf_key, Key> keys;
 
 	sf::RenderWindow wind{sf::VideoMode(WIDTH, HEIGHT), "Tetris"};
-	sf::Clock clk{};
+	wind.setFramerateLimit(60);
 
 	srand((unsigned int)time(0));
 
 	board.init();
 
 	while (wind.isOpen()) { //Main Loop
-		if (clk.getElapsedTime().asMicroseconds() >= (1000000 / 60)) {
-			clk.restart();
-
-			wind.clear(GREY);
-			update(board, wind, keys);
-			render(board, wind);
-			wind.display();
-		}
+		wind.clear(GREY);
+		update(board, wind, keys);
+		render(board, wind);
+		wind.display();
 	}
 
 	return 0;
 }
 
 bool check_piece(const Board& board, const MovingPiece& piece) {
-	Piece active_piece = get_piece_from_moving_piece(piece);
+	Piece active_piece = get_piece(piece);
 
 	for (Vec2i part : active_piece) {
 		int checkX = piece.pos.x + part.x;
@@ -116,7 +112,7 @@ void check_events(sf::RenderWindow& wind, std::map<sf_key, Key>& keys) {
 }
 
 bool can_drop(const Board& board, MovingPiece& piece) {
-	Piece active_piece{get_piece_from_moving_piece(piece)};
+	Piece active_piece{get_piece(piece)};
 	Vec2i pos{piece.pos};
 	pos.y += 1;
 
@@ -142,7 +138,7 @@ MovingPiece find_drop(const Board& board, const MovingPiece& piece) {
 void drop_piece(Board& board) {
 	MovingPiece dropped_piece = find_drop(board, board.curr_piece);
 	Vec2i pos = dropped_piece.pos;
-	Piece active_piece = get_piece_from_moving_piece(dropped_piece);
+	Piece active_piece = get_piece(dropped_piece);
 	for (Vec2i part : active_piece) {
 		Cell& cell = board.get_cell(pos + part);
 		cell.on = true;
@@ -268,7 +264,7 @@ void render_ui(const Board& board, sf::RenderWindow& wind) {
 
 void draw_piece(const MovingPiece& piece, const sf::Color& col, sf::RenderWindow& wind) {
 	Vec2i pos = piece.pos;
-	Piece active_piece = get_piece_from_moving_piece(piece);
+	Piece active_piece = get_piece(piece);
 
 	for (Vec2i& part : active_piece) {
 		sf::RectangleShape pp{Vec2f{CELL_SIZE, CELL_SIZE}};

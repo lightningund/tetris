@@ -26,13 +26,13 @@ constexpr auto FLASH_FRAMES{20};
 constexpr auto FRAMERATE{60};
 constexpr auto UPDATEFRAMES{30};
 
-constexpr auto ARR{3};
-constexpr auto DAR{3};
+constexpr auto ARR{4};
+constexpr auto DAR{4};
 
 constexpr bool real{false};
 constexpr bool use_default_key_events{false};
 
-constexpr float XOFF = ((WIDTH - (NUM_CELLS_X * CELL_SIZE)) / 2);
+constexpr float XOFF{(WIDTH - (NUM_CELLS_X * CELL_SIZE)) / 2};
 
 constexpr sf_key TURN_LEFT{sf::Keyboard::Q};
 constexpr sf_key TURN_RIGHT{sf::Keyboard::E};
@@ -96,7 +96,7 @@ struct Key {
 	int held_time;
 };
 
-Piece get_piece_from_full_piece_and_rot(const FullPiece& full_piece, const int rot);
-Piece get_piece_from_type_and_rot(const int type, const int rot);
-Piece get_piece_from_moving_piece(const MovingPiece& moving_piece);
+Piece get_piece(const FullPiece& full_piece, const int rot);
+Piece get_piece(const int type, const int rot);
+Piece get_piece(const MovingPiece& moving_piece);
 MovingPiece make_moving_piece(const int type, const int rot, const int x, const int y);
