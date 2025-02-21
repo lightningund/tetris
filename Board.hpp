@@ -23,5 +23,6 @@ struct Board {
 	void newPiece();
 	void clearRow(int rowNum);
 	void shufflePieces();
+	Cell& operator[](const Vec2i& pos);
 	Cell& get_cell(Vec2i pos);
 };

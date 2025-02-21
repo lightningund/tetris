@@ -38,6 +38,10 @@ void Board::shufflePieces() {
 	for (int i = 0; i < 7; i++) nextPieces[i] = pieceNumbers[i];
 }
 
+Cell& Board::operator[](const Vec2i& pos) {
+	return rows[pos.y].cells[pos.x];
+}
+
 Cell& Board::get_cell(Vec2i pos) {
 	return rows[pos.y].cells[pos.x];
 }
