@@ -1,4 +1,5 @@
 #include "Rendering.hpp"
+#include "Lib.hpp"
 
 static void draw_ui_piece(bool isHeld, const Board& board, sf::RenderWindow& wind) {
 	unsigned int xoff = isHeld ? PIECE_SIZE : (WIDTH - 5 * PIECE_SIZE);
@@ -45,7 +46,7 @@ static void draw_piece(const MovingPiece& piece, const sf::Color& col, sf::Rende
 
 	for (Vec2i& part : active_piece) {
 		sf::RectangleShape pp{Vec2f{CELL_SIZE, CELL_SIZE}};
-		pp.setPosition(XOFF + ((pos.x + part.x) * CELL_SIZE), float(pos.y + part.y * CELL_SIZE));
+		pp.setPosition(XOFF + ((pos.x + part.x) * CELL_SIZE), float(pos.y + part.y) * CELL_SIZE);
 		pp.setFillColor(col);
 		wind.draw(pp);
 	}

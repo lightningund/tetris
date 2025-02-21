@@ -6,7 +6,7 @@
 #include "Board.hpp"
 #include "Rendering.hpp"
 
-void update(Board& board, sf::RenderWindow& wind, std::map<sf_key, Key>& keys);
+static void update(Board& board, sf::RenderWindow& wind, std::map<sf_key, Key>& keys);
 
 int main() {
 	Board board;
