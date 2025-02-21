@@ -63,7 +63,7 @@ void pseudo_drop(const MovingPiece& piece, const Board& board, sf::RenderWindow&
 	sf::Color col = piece.get_full().color;
 	col.a = 100;
 
-	MovingPiece dropped{find_drop(board, piece)};
+	MovingPiece dropped{board.find_drop(piece)};
 
 	draw_piece(dropped, col, wind);
 }

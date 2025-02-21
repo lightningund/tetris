@@ -111,43 +111,6 @@ void check_events(sf::RenderWindow& wind, std::map<sf_key, Key>& keys) {
 	}
 }
 
-bool can_drop(const Board& board, MovingPiece& piece) {
-	Piece active_piece{get_piece(piece)};
-	Vec2i pos{piece.pos};
-	pos.y += 1;
-
-	for (Vec2i part : active_piece) {
-		Vec2i check = pos + part;
-		if (check.y >= NUM_CELLS_Y || board.rows[check.y].cells[check.x].on)
-			return true;
-	}
-
-	return false;
-}
-
-MovingPiece find_drop(const Board& board, const MovingPiece& piece) {
-	MovingPiece phantom{piece};
-
-	while (!can_drop(board, phantom)) {
-		phantom.pos.y++;
-	}
-
-	return phantom;
-}
-
-void drop_piece(Board& board) {
-	MovingPiece dropped_piece = find_drop(board, board.curr_piece);
-	Vec2i pos = dropped_piece.pos;
-	Piece active_piece = get_piece(dropped_piece);
-	for (Vec2i part : active_piece) {
-		Cell& cell = board.get_cell(pos + part);
-		cell.on = true;
-		cell.col = dropped_piece.get_full().color;
-	}
-
-	board.new_piece();
-}
-
 void swap_held(Board& board) {
 	if (!board.has_held) {
 		board.has_held = true;
@@ -167,7 +130,7 @@ void check_inputs(Board& board, std::map<sf_key, Key>& keys) {
 	if (check_key(keys[RIGHT], false))
 		move_piece(board, Vec2i{1, 0});
 	if (check_key(keys[DOWN], false))
-		if (!move_piece(board, Vec2i{0, 1})) drop_piece(board);
+		if (!move_piece(board, Vec2i{0, 1})) board.drop_piece();
 
 	if (check_key(keys[TURN_RIGHT], true)) // Rotate
 		rotate_piece(board, 1);
@@ -178,7 +141,7 @@ void check_inputs(Board& board, std::map<sf_key, Key>& keys) {
 	if (check_key(keys[SWAP_HELD], true)) // Swap for held piece
 		swap_held(board);
 	if (check_key(keys[KEY_DROP], true)) // Quick Drop
-		drop_piece(board);
+		board.drop_piece();
 }
 
 void clear_lines(Board& board) {

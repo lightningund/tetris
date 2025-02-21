@@ -22,5 +22,12 @@ struct Board {
 	void clear_row(int rowNum);
 	void shuffle_pieces();
 	Cell& operator[](const Vec2i& pos);
-	Cell& get_cell(Vec2i pos);
+	const Cell& operator[](const Vec2i& pos) const;
+	bool can_drop(MovingPiece& piece) const;
+	MovingPiece find_drop(const MovingPiece& piece) const;
+	void drop_piece();
+
+	private:
+	Cell& cell_at(const Vec2i& pos);
+	const Cell& cell_at(const Vec2i& pos) const;
 };

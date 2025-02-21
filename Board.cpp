@@ -36,10 +36,55 @@ void Board::shuffle_pieces() {
 	for (int i = 0; i < 7; i++) next_pieces[i] = pieceNumbers[i];
 }
 
-Cell& Board::operator[](const Vec2i& pos) {
+Cell& Board::cell_at(const Vec2i& pos) {
 	return rows[pos.y].cells[pos.x];
 }
 
-Cell& Board::get_cell(Vec2i pos) {
+const Cell& Board::cell_at(const Vec2i& pos) const {
 	return rows[pos.y].cells[pos.x];
+}
+
+Cell& Board::operator[](const Vec2i& pos) {
+	return cell_at(pos);
+}
+
+const Cell& Board::operator[](const Vec2i& pos) const {
+	return cell_at(pos);
+}
+
+bool Board::can_drop(MovingPiece& piece) const {
+	Piece active_piece{get_piece(piece)};
+	Vec2i pos{piece.pos};
+	pos.y += 1;
+
+	for (Vec2i part : active_piece) {
+		Vec2i check = pos + part;
+		if (check.y >= NUM_CELLS_Y || cell_at(check).on)
+			return true;
+	}
+
+	return false;
+}
+
+MovingPiece Board::find_drop(const MovingPiece& piece) const {
+	MovingPiece phantom{piece};
+
+	while (!can_drop(phantom)) {
+		phantom.pos.y++;
+	}
+
+	return phantom;
+}
+
+void Board::drop_piece() {
+	MovingPiece dropped_piece = find_drop(curr_piece);
+	Vec2i pos = dropped_piece.pos;
+	Piece active_piece = get_piece(dropped_piece);
+	for (Vec2i part : active_piece) {
+		Cell& cell = cell_at(pos + part);
+		cell.on = true;
+		cell.col = dropped_piece.get_full().color;
+	}
+
+	new_piece();
 }
