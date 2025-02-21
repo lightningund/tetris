@@ -88,3 +88,54 @@ void Board::drop_piece() {
 
 	new_piece();
 }
+
+void Board::swap_held() {
+	if (!has_held) {
+		has_held = true;
+		held_piece = curr_piece.type;
+		new_piece();
+	} else {
+		int tempPiece = held_piece;
+		held_piece = curr_piece.type;
+		curr_piece = MovingPiece{tempPiece};
+		curr_piece.pos = Vec2i{NUM_CELLS_X / 2, 0};
+	}
+}
+
+bool Board::check_piece(const MovingPiece& piece) const {
+	Piece active_piece = get_piece(piece);
+
+	for (Vec2i part : active_piece) {
+		Vec2i check = piece.pos + part;
+		if (check.x >= NUM_CELLS_X || check.x < 0) return false;
+		if (check.y >= NUM_CELLS_Y || check.y < 0) return false;
+
+		if (cell_at(check).on) return false;
+	}
+
+	return true;
+}
+
+bool Board::check_piece() const {
+	return check_piece(curr_piece);
+}
+
+bool Board::set_piece(const MovingPiece& phantom) {
+	if (!check_piece(phantom)) return false;
+
+	curr_piece = MovingPiece{phantom};
+	return true;
+}
+
+bool Board::move_piece(const Vec2i& delta) {
+	MovingPiece phantom = curr_piece;
+	phantom.pos += delta;
+	return set_piece(phantom);
+}
+
+bool Board::rotate_piece(int amnt) {
+	MovingPiece phantom = curr_piece;
+	phantom.rot += amnt;
+	phantom.rot %= 4;
+	return set_piece(phantom);
+}

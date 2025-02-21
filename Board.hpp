@@ -26,6 +26,13 @@ struct Board {
 	bool can_drop(MovingPiece& piece) const;
 	MovingPiece find_drop(const MovingPiece& piece) const;
 	void drop_piece();
+	void swap_held();
+
+	bool check_piece(const MovingPiece& piece) const;
+	bool check_piece() const;
+	bool set_piece(const MovingPiece& phantom);
+	bool move_piece(const Vec2i& delta);
+	bool rotate_piece(int amnt);
 
 	private:
 	Cell& cell_at(const Vec2i& pos);
