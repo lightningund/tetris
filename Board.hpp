@@ -10,8 +10,6 @@ struct Board {
 	unsigned int next_piece_ind{};
 	unsigned int score{};
 	unsigned int lines_cleared{};
-	unsigned int drop_time{};
-	unsigned int drop_timer{};
 
 	MovingPiece curr_piece{};
 

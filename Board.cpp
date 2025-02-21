@@ -1,8 +1,6 @@
 #include "Board.hpp"
 
 void Board::init() {
-	drop_time = 30;
-	drop_timer = 0;
 	hit_floor = false;
 	score = 0;
 	has_held = false;
